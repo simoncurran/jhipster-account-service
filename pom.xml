@@ -70,6 +70,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.spockframework/spock-core -->
+            <dependency>
+                <groupId>org.spockframework</groupId>
+                <artifactId>spock-core</artifactId>
+                <version>1.1-groovy-2.4-rc-3</version>
+                <scope>test</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -308,6 +315,11 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-jdk8</artifactId>
             <version>${mapstruct.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.spockframework/spock-core -->
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -600,6 +612,12 @@
                 <configuration>
                     <!-- Force alphabetical order to have a reproducible build -->
                     <runOrder>alphabetical</runOrder>
+                    <includes>
+                        <!-- By default only files ending in 'Test' will be included, so also include support for Spock style naming convention -->
+                        <!-- Oddly enough for Groovy files, *Spec.groovy does not work, but *Spec.java does -->
+                        <include>**/*Test.java</include>
+                        <include>**/*Spec.java</include>
+                    </includes>
                 </configuration>
             </plugin>
             <plugin>
@@ -749,15 +767,15 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <!-- 
+                        <!--
                         <executions>
                             <execution>
                                 <id>default-compile</id>
-                                <phase>none</phase>
+                                <phase>compile</phase>
                             </execution>
                             <execution>
                                 <id>default-testCompile</id>
-                                <phase>none</phase>
+                                <phase>testCompile</phase>
                             </execution>
                         </executions>
                         -->
@@ -765,12 +783,12 @@
                             <dependency>
                                 <groupId>org.codehaus.groovy</groupId>
                                 <artifactId>groovy-eclipse-batch</artifactId>
-                                <version>2.3.7-01</version>
+                                <version>2.4.3-01</version>
                             </dependency>
                             <dependency>
                                 <groupId>org.codehaus.groovy</groupId>
                                 <artifactId>groovy-eclipse-compiler</artifactId>
-                                <version>2.9.1-01</version>
+                                <version>2.9.2-01</version>
                             </dependency>
                         </dependencies>
                         <configuration>
